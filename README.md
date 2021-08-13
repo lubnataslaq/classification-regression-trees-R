@@ -36,3 +36,16 @@ fit1 <-   randomForest(y ~ x, data = dat, nodesize = 50, maxnodes = 25)
   geom_point(aes(x, y)) +
   geom_step(aes(x, y_hat), col = "red")
   plot(fit1)
+  -------
+  #data tissue_gene example
+library(caret)   
+library(rpart)
+library(dslabs)
+set.seed(1991, sample.kind="Rounding")
+
+train_part <- with(tissue_gene_expression ,train(x, y , method= "rpart" , 
+      tuneGrid= data.frame(cp= seq(0, 0.1, 0.01)),
+      control = rpart.control(minsplit = 0)))
+plot(train_part$finalModel)
+text(train_part$finalModel)
+confusionMatrix(train_part)
